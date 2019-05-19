@@ -26,6 +26,11 @@
         </div>
       </div>
     </div>
+    <!--回到顶部-->
+    <div v-if='isShow' @click="toTopHandle" class="to-top">
+      ︿
+      <p>顶部</p>
+    </div>
   </div>
 </template>
 
@@ -39,12 +44,21 @@ import request from "../../utils/request.js";
 export default {
   data() {
     return {
+      isShow:false,
       // 该属性的作用：显示底部的小圆圈
       indicatorDots: true,
       imgUrls: [],
       menus: [],
       floors:[]
-    };
+    }
+  },
+  methods: {
+    toTopHandle(){
+      // 控制回到顶部
+      mpvue.pageScrollTo({
+        scrollTop: 0
+      })
+    }
   },
   components: {
     "search-bar": SearchBar
@@ -120,6 +134,11 @@ export default {
         return item
       })
     }
+  },
+  onPageScroll(event){
+    // console.log(event.scrollTop)
+    // 当滚动条大于指定值的时候，显示回到顶部的按钮
+    this.isShow = event.scrollTop > 50
   }
 }
 </script>
@@ -161,5 +180,21 @@ export default {
   width: 232rpx;
   height: 188rpx;
   border-radius: 4rpx;
+}
+.to-top{
+  width:100rpx;
+  height:100rpx;
+  border-radius: 50%;
+  background:rgba(255,255,255,0.8);
+  position: fixed;
+  right:40rpx;
+  bottom:40rpx;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.to-top p{
+  font-size:16rpx;
 }
 </style>
