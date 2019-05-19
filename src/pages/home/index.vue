@@ -58,6 +58,20 @@ export default {
       mpvue.pageScrollTo({
         scrollTop: 0
       })
+    },
+    async initData(){
+      // 轮播图数据
+      let swiperRes = await request("home/swiperdata")
+      let imgs = swiperRes.data.message.map(item => {
+        return item.image_src
+      })
+      this.imgUrls = imgs
+      // 菜单数据
+      let menuRes = await request('home/catitems')
+      this.menus = menuRes.data.message
+      // 楼层数据
+      let floorsRes = await request('home/floordata')
+      this.floors = floorsRes.data.message
     }
   },
   components: {
@@ -89,11 +103,11 @@ export default {
     //     that.imgUrls = imgs;
     // })
 
-    let swiperRes = await request("home/swiperdata");
-    let imgs = swiperRes.data.message.map(item => {
-      return item.image_src
-    })
-    this.imgUrls = imgs
+    // let swiperRes = await request("home/swiperdata");
+    // let imgs = swiperRes.data.message.map(item => {
+    //   return item.image_src
+    // })
+    // this.imgUrls = imgs
 
     // 调用菜单接口
     // mpvue.request({
@@ -110,12 +124,14 @@ export default {
     //   that.menus = res.data.message;
     // });
 
-    let menuRes = await request('home/catitems')
-    this.menus = menuRes.data.message
+    // let menuRes = await request('home/catitems')
+    // this.menus = menuRes.data.message
 
     // 获取楼层数据
-    let floorsRes = await request('home/floordata')
-    this.floors = floorsRes.data.message
+    // let floorsRes = await request('home/floordata')
+    // this.floors = floorsRes.data.message
+
+    this.initData()
   },
   computed: {
     getImgs(){
@@ -139,7 +155,11 @@ export default {
     // console.log(event.scrollTop)
     // 当滚动条大于指定值的时候，显示回到顶部的按钮
     this.isShow = event.scrollTop > 50
-  }
+  },
+  onPullDownRefresh () {
+  // 下拉刷新，重新加载页面的数据
+  this.initData()
+}
 }
 </script>
 
