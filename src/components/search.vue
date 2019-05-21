@@ -11,16 +11,16 @@
 export default {};
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .search{
     padding: 20rpx;
     background-color: #EB4450;
-}
-.search .search-item{
+    .search-item{
     text-align: center;
     background-color: #fff;
-}
-.search .search-item icon{
-    vertical-align: middle;
+    icon{
+      vertical-align: middle;
+    }
+  }
 }
 </style>
